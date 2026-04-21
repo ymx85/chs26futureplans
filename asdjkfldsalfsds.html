@@ -24,11 +24,11 @@
     <style>
         body { font-family: 'Inter', sans-serif; background-color: #f8f9fa; }
         
-        /* PORTRAIT CARDS: 3 PER ROW */
+        /* PORTRAIT CARDS: UPDATED TO 5 PER ROW */
         .profile-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1.5rem;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 1rem;
         }
 
         .person-card { 
@@ -75,12 +75,18 @@
         }
         .active .modal-content { transform: scale(1); opacity: 1; }
         
-        /* Mobile adjustment for the 3-row layout */
+        /* Mobile adjustment */
+        @media (max-width: 1024px) {
+            .profile-grid { grid-template-columns: repeat(3, 1fr); }
+        }
         @media (max-width: 640px) {
-            .profile-grid { gap: 0.5rem; }
-            .person-card h2 { font-size: 0.875rem !important; }
-            .person-card p { font-size: 0.7rem !important; }
-            .p-6 { padding: 0.75rem !important; }
+            .profile-grid { 
+                grid-template-columns: repeat(2, 1fr);
+                gap: 0.5rem; 
+            }
+            .person-card h2 { font-size: 0.75rem !important; }
+            .person-card p { font-size: 0.65rem !important; }
+            .p-4 { padding: 0.5rem !important; }
         }
     </style>
 </head>
@@ -202,7 +208,7 @@
         let isAdmin = false;
         const SOCIAL_ICONS = { instagram: 'fab fa-instagram', tiktok: 'fab fa-tiktok', phone: 'fas fa-phone-alt', email: 'fas fa-envelope' };
 
-        // Data processing for original data
+        // Preloaded data
         const rawData = [
             { name: "Georgia Kraabel", planCategory: "College", college: "Miami University", socialType: "email", social: "georgiak1883@gmail.com" },
             { name: "Bhavana Rupakula", planCategory: "College", college: "Purdue University", socialType: "phone", social: "(425) 469-4918" },
@@ -371,24 +377,24 @@
             
             let adminBtns = isAdmin ? `
                 <div class="absolute top-2 right-2 flex gap-1 z-30">
-                    ${p.status === 'pending' ? `<button onclick="handleApprove(event, ${p.id})" class="bg-green-600 text-white w-7 h-7 rounded-full shadow flex items-center justify-center hover:bg-green-700 transition-colors"><i class="fas fa-check text-[10px]"></i></button>` : ''}
-                    <button onclick="handleEdit(event, ${p.id})" class="bg-blue-600 text-white w-7 h-7 rounded-full shadow flex items-center justify-center hover:bg-blue-700 transition-colors"><i class="fas fa-edit text-[10px]"></i></button>
-                    <button onclick="handleDelete(event, ${p.id})" class="bg-red-600 text-white w-7 h-7 rounded-full shadow flex items-center justify-center hover:bg-red-700 transition-colors"><i class="fas fa-trash text-[10px]"></i></button>
+                    ${p.status === 'pending' ? `<button onclick="handleApprove(event, ${p.id})" class="bg-green-600 text-white w-5 h-5 rounded shadow flex items-center justify-center hover:bg-green-700 transition-colors"><i class="fas fa-check text-[8px]"></i></button>` : ''}
+                    <button onclick="handleEdit(event, ${p.id})" class="bg-blue-600 text-white w-5 h-5 rounded shadow flex items-center justify-center hover:bg-blue-700 transition-colors"><i class="fas fa-edit text-[8px]"></i></button>
+                    <button onclick="handleDelete(event, ${p.id})" class="bg-red-600 text-white w-5 h-5 rounded shadow flex items-center justify-center hover:bg-red-700 transition-colors"><i class="fas fa-trash text-[8px]"></i></button>
                 </div>` : '';
 
-            const img = p.photo ? `<img src="${p.photo}" class="w-full h-full object-cover">` : `<div class="w-full h-full flex items-center justify-center text-4xl font-bold text-white bg-[#1e40af]">${initials}</div>`;
+            const img = p.photo ? `<img src="${p.photo}" class="w-full h-full object-cover">` : `<div class="w-full h-full flex items-center justify-center text-3xl font-bold text-white bg-[#1e40af]">${initials}</div>`;
 
             card.innerHTML = `
                 ${adminBtns}
                 <div class="card-image-container">${img}</div>
-                <div class="p-4 md:p-6 flex-grow text-center">
-                    <h2 class="text-base md:text-xl font-bold text-gray-800 mb-1 leading-tight">${p.firstName} ${p.lastName}</h2>
-                    <div class="border-t border-gray-100 pt-3 mt-2">
-                        <p class="text-[9px] md:text-[10px] font-extrabold text-blue-800 uppercase tracking-widest mb-1">${p.planCategory}</p>
-                        <p class="text-sm md:text-base font-semibold text-gray-700 leading-tight">${p.college}</p>
-                        <p class="text-xs md:text-sm text-gray-500 italic mt-1">${p.major}</p>
+                <div class="p-2 md:p-4 flex-grow text-center">
+                    <h2 class="text-[10px] md:text-sm font-bold text-gray-800 mb-0.5 leading-tight">${p.firstName} ${p.lastName}</h2>
+                    <div class="border-t border-gray-100 pt-1 mt-1">
+                        <p class="text-[7px] md:text-[8px] font-extrabold text-blue-800 uppercase tracking-widest mb-0.5">${p.planCategory}</p>
+                        <p class="text-[8px] md:text-[10px] font-semibold text-gray-700 leading-tight">${p.college}</p>
+                        <p class="text-[7px] md:text-[8px] text-gray-500 italic mt-0.5">${p.major}</p>
                     </div>
-                    ${p.social ? `<div class="mt-4 flex items-center justify-center text-blue-600 font-semibold text-[10px] md:text-xs"><i class="${icon} mr-2"></i> ${p.social}</div>` : ''}
+                    ${p.social ? `<div class="mt-2 flex items-center justify-center text-blue-600 font-semibold text-[7px] md:text-[9px]"><i class="${icon} mr-1"></i> ${p.social}</div>` : ''}
                 </div>`;
             return card;
         }
@@ -396,13 +402,11 @@
         function renderGrids() {
             const searchTerm = document.getElementById('search-bar').value.toLowerCase();
             
-            // Filter profiles based on search term
             const filteredProfiles = profiles.filter(p => {
                 const searchString = `${p.firstName} ${p.lastName} ${p.college} ${p.planCategory} ${p.major}`.toLowerCase();
                 return searchString.includes(searchTerm);
             });
 
-            // Sort by last name, then first name
             const sorted = [...filteredProfiles].sort((a, b) => (a.lastName || "").localeCompare(b.lastName || "") || a.firstName.localeCompare(b.firstName));
             
             const publicGrid = document.getElementById('profile-grid');
@@ -422,7 +426,6 @@
             document.getElementById('pending-section').classList.toggle('hidden', !isAdmin || pCount === 0);
         }
 
-        // ENTER KEY LOGIN
         document.getElementById('admin-pass').addEventListener('keypress', (e) => {
             if (e.key === 'Enter') adminLogin();
         });
